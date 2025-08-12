@@ -1,0 +1,91 @@
+/* Reset some default styles */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  min-height: 100vh;
+  font-family: 'Segoe UI', 'Roboto', 'Helvetica Neue', Arial, sans-serif;
+  background: linear-gradient(135deg, #232526 0%, #414345 100%);
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 1rem;
+}
+
+header {
+  width: 100%;
+  padding: 2rem 0 1rem 0;
+  text-align: center;
+  background: rgba(0,0,0,0.2);
+  box-shadow: 0 2px 12px 0 rgba(0,0,0,0.08);
+}
+
+h1 {
+  font-size: 2.5rem;
+  letter-spacing: 0.05em;
+  background: linear-gradient(90deg, #ff8c00, #ff0080);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin-bottom: 0.5rem;
+}
+
+main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+}
+
+#result {
+  font-size: 1.5rem;
+  margin: 2rem 0;
+  padding: 1.5rem 2rem;
+  background: rgba(255,255,255,0.1);
+  border-radius: 1.5rem;
+  box-shadow: 0 4px 24px 0 rgba(255,140,0,0.15);
+  transition: background 0.3s, color 0.3s;
+  text-align: center;
+  font-weight: 600;
+  color: #fff;
+}
+
+footer {
+  width: 100%;
+  text-align: center;
+  padding: 1.5rem 0 1rem 0;
+  background: rgba(0,0,0,0.15);
+  font-size: 1rem;
+  letter-spacing: 0.02em;
+  color: #e0e0e0;
+  box-shadow: 0 -2px 12px 0 rgba(0,0,0,0.08);
+}
+
+footer p {
+  margin: 0.2rem 0;
+}
+
+/* Responsive styles */
+@media (max-width: 600px) {
+  h1 {
+    font-size: 1.6rem;
+  }
+  #result {
+    font-size: 1.1rem;
+    padding: 1rem 0.5rem;
+  }
+  main {
+    padding: 0.5rem 0;
+  }
+  footer {
+    font-size: 0.95rem;
+    padding: 1rem 0 0.5rem 0;
+  }
+}
