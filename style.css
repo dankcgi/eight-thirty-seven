@@ -15,6 +15,16 @@ body {
   align-items: center;
   justify-content: space-between;
   padding: 0 1rem;
+  /* Animated background gradient */
+  background: linear-gradient(270deg, #232526, #414345, #ff0080, #ff8c00, #232526);
+  background-size: 200% 200%;
+  animation: bgMove 10s ease-in-out infinite;
+}
+
+@keyframes bgMove {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
 }
 
 header {
@@ -28,11 +38,20 @@ header {
 h1 {
   font-size: 2.5rem;
   letter-spacing: 0.05em;
-  background: linear-gradient(90deg, #ff8c00, #ff0080);
+  background: linear-gradient(90deg, #ff8c00, #ff0080, #00ffe7, #ff8c00);
+  background-size: 300% 300%;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
   margin-bottom: 0.5rem;
+  animation: h1Glow 3s linear infinite;
+  filter: drop-shadow(0 0 12px #ff0080) drop-shadow(0 0 24px #ff8c00);
+}
+
+@keyframes h1Glow {
+  0% { background-position: 0% 50%; filter: drop-shadow(0 0 12px #ff0080) drop-shadow(0 0 24px #ff8c00); }
+  50% { background-position: 100% 50%; filter: drop-shadow(0 0 32px #00ffe7) drop-shadow(0 0 48px #ff0080); }
+  100% { background-position: 0% 50%; filter: drop-shadow(0 0 12px #ff0080) drop-shadow(0 0 24px #ff8c00); }
 }
 
 main {
@@ -48,13 +67,66 @@ main {
   font-size: 1.5rem;
   margin: 2rem 0;
   padding: 1.5rem 2rem;
-  background: rgba(255,255,255,0.1);
+  background: rgba(255,255,255,0.15);
   border-radius: 1.5rem;
-  box-shadow: 0 4px 24px 0 rgba(255,140,0,0.15);
-  transition: background 0.3s, color 0.3s;
+  box-shadow: 0 4px 24px 0 rgba(255,140,0,0.25), 0 0 40px 10px #ff008055;
+  transition: background 0.3s, color 0.3s, transform 0.2s, box-shadow 0.2s;
   text-align: center;
   font-weight: 600;
   color: #fff;
+  position: relative;
+  overflow: hidden;
+  z-index: 1;
+  /* Animated border */
+  border: 3px solid transparent;
+  background-clip: padding-box;
+  animation: resultPulse 2.5s infinite alternate;
+}
+
+@keyframes resultPulse {
+  0% {
+    box-shadow: 0 4px 24px 0 rgba(255,140,0,0.25), 0 0 40px 10px #ff008055;
+    transform: scale(1);
+    border-color: #ff8c00;
+  }
+  50% {
+    box-shadow: 0 8px 48px 0 rgba(0,255,231,0.25), 0 0 80px 20px #00ffe755;
+    transform: scale(1.04);
+    border-color: #00ffe7;
+  }
+  100% {
+    box-shadow: 0 4px 24px 0 rgba(255,140,0,0.25), 0 0 40px 10px #ff008055;
+    transform: scale(1);
+    border-color: #ff0080;
+  }
+}
+
+#result::before {
+  content: '';
+  position: absolute;
+  top: -10%;
+  left: -10%;
+  width: 120%;
+  height: 120%;
+  background: conic-gradient(from 0deg, #ff8c00, #ff0080, #00ffe7, #ff8c00 100%);
+  filter: blur(24px) brightness(1.2);
+  opacity: 0.25;
+  z-index: -1;
+  animation: conicSpin 6s linear infinite;
+}
+
+@keyframes conicSpin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+#result:hover, #result:active {
+  background: rgba(255,255,255,0.22);
+  color: #ff0080;
+  transform: scale(1.06) rotate(-1deg);
+  box-shadow: 0 8px 48px 0 rgba(0,255,231,0.25), 0 0 80px 20px #00ffe755;
+  border-color: #00ffe7;
+  cursor: pointer;
 }
 
 footer {
@@ -66,20 +138,44 @@ footer {
   letter-spacing: 0.02em;
   color: #e0e0e0;
   box-shadow: 0 -2px 12px 0 rgba(0,0,0,0.08);
+  position: relative;
+  overflow: hidden;
+}
+
+footer::before {
+  content: '';
+  position: absolute;
+  left: 0; right: 0; top: 0; bottom: 0;
+  background: repeating-linear-gradient(90deg, #ff8c00 0 2px, transparent 2px 20px, #00ffe7 20px 22px, transparent 22px 40px);
+  opacity: 0.08;
+  z-index: 0;
+  pointer-events: none;
+  animation: footerStripe 8s linear infinite;
+}
+
+@keyframes footerStripe {
+  0% { background-position: 0 0; }
+  100% { background-position: 80px 0; }
 }
 
 footer p {
   margin: 0.2rem 0;
+  position: relative;
+  z-index: 1;
 }
+
+
 
 /* Responsive styles */
 @media (max-width: 600px) {
   h1 {
     font-size: 1.6rem;
+    animation-duration: 2.2s;
   }
   #result {
     font-size: 1.1rem;
     padding: 1rem 0.5rem;
+    animation-duration: 1.5s;
   }
   main {
     padding: 0.5rem 0;
