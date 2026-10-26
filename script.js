@@ -1,30 +1,79 @@
-const resultElement = document.getElementById("result");
+import { celebrate } from "./confetti.js";
 
-function getTimeUntilNex2037() {
+const EIGHT_THIRTY_SEVEN = { hour: 17, minutes: 54 };
+
+const UNITS = { hour: 'hour', minute: 'minute', second: 'second' };
+
+const MS_PER_SECOND = 1_000;
+const SECONDS_PER_MINUTE = 60;
+const MINUTES_PER_HOUR = 60;
+const SECONDS_PER_HOUR = SECONDS_PER_MINUTE * MINUTES_PER_HOUR;
+
+const resultElement = document.getElementById('result');
+const currentYearElement = document.getElementById('current-year');
+
+let wasNow = false;
+
+
+const isEightThirtySeven = (date) => 
+    date.getHours() === EIGHT_THIRTY_SEVEN.hour && date.getMinutes() === EIGHT_THIRTY_SEVEN.minutes;
+
+const getSecondsUntil = (target, now) =>  Math.floor((target - now) / MS_PER_SECOND);
+
+const getHoursUntil = (totalSeconds) => Math.floor(totalSeconds / SECONDS_PER_HOUR);
+
+const getMinutesUntil = (totalSeconds) => Math.floor(totalSeconds / SECONDS_PER_MINUTE) % MINUTES_PER_HOUR;
+
+function getTimeUntilNext2037() {
     const now = new Date();
-    const next2037 = new Date(now.getFullYear(), 7, 37, 20, 37, 0); 
-    if (now > next2037) {
-        next2037.setFullYear(next2037.getFullYear() + 1); 
+    const target = new Date(now);
+    target.setHours(EIGHT_THIRTY_SEVEN.hour, EIGHT_THIRTY_SEVEN.minutes, 0, 0);
+
+    if (now >= target) {
+        target.setDate(target.getDate() + 1); 
     }
-    const diff = next2037 - now;
-    const secondsUntil = Math.floor(diff / 1000);
-    const minutesUntil = Math.floor(secondsUntil / 60);
-    const hoursUntil = Math.floor(minutesUntil / 60);
+
+    const secondsUntil = getSecondsUntil(target, now);
+
     return {
-        hours: hoursUntil % 24,
-        minutes: minutesUntil % 60,
-        seconds: secondsUntil % 60
+        hours: getHoursUntil(secondsUntil),
+        minutes: getMinutesUntil(secondsUntil),
+        seconds: secondsUntil % SECONDS_PER_MINUTE
     };
 }
 
-function checkTime() {
-    const now = new Date();
-    if (now.getHours() === 20 && now.getMinutes() === 37) {
-        resultElement.textContent = "You bet your sweet bippy it is. Huzzah!";
-    } else {
-        resultElement.textContent = `Nope, but it will be in ${getTimeUntilNex2037().hours} hours, ${getTimeUntilNex2037().minutes} minutes, and ${getTimeUntilNex2037().seconds} seconds.`;
-    }
+const plural = (number, unit) => `${number} ${unit}${number === 1 ? '' : 's'}`;
+
+const writeTimeUntil = () => {
+    const timeUntil = getTimeUntilNext2037()
+    const hours = plural(timeUntil.hours, UNITS.hour);
+    const minutes = plural(timeUntil.minutes, UNITS.minute);
+    const seconds = plural(timeUntil.seconds, UNITS.second);
+
+    return `Nope, but it will be in ${hours}, ${minutes}, and ${seconds}.`
 }
 
-checkTime(); 
-setInterval(checkTime, 1000);
+const checkTime = () => {
+    const isNow = isEightThirtySeven(new Date());
+
+    if (isNow) {
+        resultElement.dataset.state = 'now';
+        resultElement.textContent = "You bet your sweet bippy it is. Huzzah!";
+
+        if (!wasNow) celebrate(resultElement);
+    } else {
+        delete resultElement.dataset.state;
+        resultElement.textContent = writeTimeUntil()
+    }
+
+    wasNow = isNow;
+}
+
+const tick = () => {
+    checkTime();
+    setTimeout(tick, MS_PER_SECOND - (Date.now() % MS_PER_SECOND));
+}
+
+currentYearElement.textContent = new Date().getFullYear();
+
+tick();
