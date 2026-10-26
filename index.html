@@ -1,9 +1,10 @@
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Is it 8:37 PM?</title>
-    <script src="script.js" defer></script>
+    <script src="script.js" type="module"></script>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -12,12 +13,12 @@
     </header>
 
     <main>
-        <p id="result"></p>
+        <p id="result" role="timer"></p>
     </main>
 
     <footer>
-        <p>© Dan Kiernan 2025</p>
-        <p>Inspired by an alarm set by Paul Watson</p>
+        <p>© Dan Kiernan <span id="current-year"></span></p>
+        <p>Inspired by an alarm originally set by Paul Watson</p>
     </footer>
 </body>
 </html>
