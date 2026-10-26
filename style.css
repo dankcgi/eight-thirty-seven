@@ -1,187 +1,271 @@
-/* Reset some default styles */
-* {
+/* ==========================================================================
+   Is it 8:37 PM? — clean, deep, dimensional
+   Colours follow the visitor's light/dark preference via light-dark().
+   ========================================================================== */
+
+:root {
+  color-scheme: light dark;
+
+  /* Page */
+  --bg-top: light-dark(#eef1f7, #1c2436);
+  --bg-bottom: light-dark(#d6dce8, #0d111b);
+  --glow: light-dark(#ffffff, #2b3754);
+
+  /* Background shapes */
+  --shape-hi: light-dark(#ffffff, #2c3753);
+  --shape-lo: light-dark(#dde2ec, #161c2b);
+  --sphere-hi: light-dark(#ffffff, #3a4668);
+  --sphere-mid: light-dark(#e4e9f2, #1a2133);
+  --sphere-lo: light-dark(#cbd3e0, #10141f);
+
+  /* Slab face */
+  --surface-hi: light-dark(#ffffff, #2f3a54);
+  --surface-lo: light-dark(#edf0f6, #222b40);
+
+  /* Extrusion layers, light to dark, for the slab's thickness */
+  --edge-1: light-dark(#d5dbe6, #1b2234);
+  --edge-2: light-dark(#cbd2de, #181e2f);
+  --edge-3: light-dark(#c1c9d6, #151b2a);
+  --edge-4: light-dark(#b7c0ce, #121725);
+  --edge-5: light-dark(#adb7c6, #0f1420);
+
+  /* Light and shadow */
+  --highlight: light-dark(rgb(255 255 255 / 1), rgb(255 255 255 / 0.14));
+  --inner-lip: light-dark(rgb(0 0 0 / 0.06), rgb(0 0 0 / 0.25));
+  --sheen: light-dark(rgb(255 255 255 / 0.6), rgb(255 255 255 / 0.07));
+  --shadow-near: light-dark(rgb(40 52 80 / 0.16), rgb(0 0 0 / 0.35));
+  --shadow-far: light-dark(rgb(40 52 80 / 0.18), rgb(0 0 0 / 0.45));
+  --emboss-dark: light-dark(rgb(0 0 0 / 0.12), rgb(0 0 0 / 0.6));
+  --emboss-light: light-dark(rgb(255 255 255 / 0.9), rgb(255 255 255 / 0.08));
+  --rule: light-dark(rgb(0 0 0 / 0.08), rgb(255 255 255 / 0.06));
+
+  /* Text and accent */
+  --text: light-dark(#1d2433, #eceff5);
+  --muted: light-dark(#5f6a80, #8b95aa);
+  --accent: light-dark(#b98535, #e3b465);
+
+  --serif: "Iowan Old Style", "Palatino Linotype", Palatino, "Book Antiqua", Georgia, serif;
+  --sans: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+
+  --tilt: 14deg;
+}
+
+*,
+*::before,
+*::after {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
 }
 
+/* --------------------------------------------------------------------------
+   Page and background shapes
+   -------------------------------------------------------------------------- */
+
 body {
   min-height: 100vh;
-  font-family: 'Segoe UI', 'Roboto', 'Helvetica Neue', Arial, sans-serif;
-  background: linear-gradient(135deg, #232526 0%, #414345 100%);
-  color: #fff;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: space-between;
+  min-height: 100svh;
+  display: grid;
+  grid-template-rows: auto 1fr auto;
   padding: 0 1rem;
-  /* Animated background gradient */
-  background: linear-gradient(270deg, #232526, #414345, #ff0080, #ff8c00, #232526);
-  background-size: 200% 200%;
-  animation: bgMove 10s ease-in-out infinite;
+  font-family: var(--sans);
+  color: var(--text);
+  background:
+    radial-gradient(ellipse 80% 50% at 50% 0%, var(--glow) 0%, transparent 70%),
+    linear-gradient(180deg, var(--bg-top) 0%, var(--bg-bottom) 100%);
+  background-attachment: fixed;
+  isolation: isolate;
+  overflow-x: hidden;
 }
 
-@keyframes bgMove {
-  0% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
-  100% { background-position: 0% 50%; }
+body::before,
+body::after {
+  content: "";
+  position: fixed;
+  z-index: -1;
+  pointer-events: none;
 }
+
+/* A large tilted rounded square, top right */
+body::before {
+  top: -14vmax;
+  right: -12vmax;
+  width: 44vmax;
+  aspect-ratio: 1;
+  border-radius: 28%;
+  background: linear-gradient(145deg, var(--shape-hi) 0%, var(--shape-lo) 100%);
+  box-shadow:
+    inset 0 1px 0 var(--highlight),
+    0 40px 90px var(--shadow-far);
+  transform: rotate(18deg);
+}
+
+/* A lit sphere, bottom left */
+body::after {
+  bottom: -12vmax;
+  left: -10vmax;
+  width: 32vmax;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle at 32% 28%,
+    var(--sphere-hi) 0%,
+    var(--sphere-mid) 55%,
+    var(--sphere-lo) 100%
+  );
+  box-shadow: 0 30px 80px var(--shadow-far);
+}
+
+/* --------------------------------------------------------------------------
+   Header
+   -------------------------------------------------------------------------- */
 
 header {
-  width: 100%;
-  padding: 2rem 0 1rem 0;
+  padding: 3.5rem 0 1rem;
   text-align: center;
-  background: rgba(0,0,0,0.2);
-  box-shadow: 0 2px 12px 0 rgba(0,0,0,0.08);
 }
 
 h1 {
-  font-size: 2.5rem;
-  letter-spacing: 0.05em;
-  background: linear-gradient(90deg, #ff8c00, #ff0080, #00ffe7, #ff8c00);
-  background-size: 300% 300%;
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-  margin-bottom: 0.5rem;
-  animation: h1Glow 3s linear infinite;
-  filter: drop-shadow(0 0 12px #ff0080) drop-shadow(0 0 24px #ff8c00);
+  font-family: var(--serif);
+  font-weight: 500;
+  font-size: clamp(2rem, 6vw, 3.75rem);
+  letter-spacing: 0.01em;
+  color: var(--text);
+  /* Debossed: light catches the lower lip, shadow sits above */
+  text-shadow:
+    0 -1px 0 var(--emboss-dark),
+    0 1px 0 var(--emboss-light),
+    0 14px 28px var(--shadow-near);
 }
 
-@keyframes h1Glow {
-  0% { background-position: 0% 50%; filter: drop-shadow(0 0 12px #ff0080) drop-shadow(0 0 24px #ff8c00); }
-  50% { background-position: 100% 50%; filter: drop-shadow(0 0 32px #00ffe7) drop-shadow(0 0 48px #ff0080); }
-  100% { background-position: 0% 50%; filter: drop-shadow(0 0 12px #ff0080) drop-shadow(0 0 24px #ff8c00); }
+/* A short gold rule beneath the title */
+h1::after {
+  content: "";
+  display: block;
+  width: 3rem;
+  height: 2px;
+  margin: 1.25rem auto 0;
+  border-radius: 1px;
+  background: linear-gradient(90deg, transparent, var(--accent), transparent);
 }
+
+/* --------------------------------------------------------------------------
+   The slab
+   -------------------------------------------------------------------------- */
 
 main {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  width: 100%;
+  display: grid;
+  place-items: center;
+  perspective: 1000px;
+  padding: 2rem 0 4rem;
 }
 
 #result {
-  font-size: 1.5rem;
-  margin: 2rem 0;
-  padding: 1.5rem 2rem;
-  background: rgba(255,255,255,0.15);
-  border-radius: 1.5rem;
-  box-shadow: 0 4px 24px 0 rgba(255,140,0,0.25), 0 0 40px 10px #ff008055;
-  transition: background 0.3s, color 0.3s, transform 0.2s, box-shadow 0.2s;
-  text-align: center;
-  font-weight: 600;
-  color: #fff;
   position: relative;
-  overflow: hidden;
-  z-index: 1;
-  /* Animated border */
-  border: 3px solid transparent;
-  background-clip: padding-box;
-  animation: resultPulse 2.5s infinite alternate;
+  max-width: 34rem;
+  padding: 2.5rem 3rem;
+  border-radius: 1.75rem;
+
+  font-size: clamp(1.1rem, 2.6vw, 1.5rem);
+  font-weight: 500;
+  line-height: 1.55;
+  text-align: center;
+  font-variant-numeric: tabular-nums;
+  color: var(--text);
+
+  background: linear-gradient(165deg, var(--surface-hi) 0%, var(--surface-lo) 100%);
+  box-shadow:
+    inset 0 1px 0 var(--highlight),
+    inset 0 -2px 0 var(--inner-lip),
+    0 2px 0 var(--edge-1),
+    0 4px 0 var(--edge-2),
+    0 6px 0 var(--edge-3),
+    0 8px 0 var(--edge-4),
+    0 10px 0 var(--edge-5),
+    0 18px 24px var(--shadow-near),
+    0 50px 80px var(--shadow-far);
+
+  transform: rotateX(var(--tilt));
+  transform-origin: 50% 100%;
+  animation: float 7s ease-in-out infinite;
+  transition: color 0.6s, background 0.6s, box-shadow 0.6s;
 }
 
-@keyframes resultPulse {
-  0% {
-    box-shadow: 0 4px 24px 0 rgba(255,140,0,0.25), 0 0 40px 10px #ff008055;
-    transform: scale(1);
-    border-color: #ff8c00;
+/* Soft sheen across the upper face */
+#result::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: linear-gradient(180deg, var(--sheen) 0%, transparent 45%);
+  pointer-events: none;
+}
+
+@keyframes float {
+  0%,
+  100% {
+    transform: rotateX(var(--tilt)) translateY(0);
   }
   50% {
-    box-shadow: 0 8px 48px 0 rgba(0,255,231,0.25), 0 0 80px 20px #00ffe755;
-    transform: scale(1.04);
-    border-color: #00ffe7;
-  }
-  100% {
-    box-shadow: 0 4px 24px 0 rgba(255,140,0,0.25), 0 0 40px 10px #ff008055;
-    transform: scale(1);
-    border-color: #ff0080;
+    transform: rotateX(calc(var(--tilt) - 3deg)) translateY(-8px);
   }
 }
 
-#result::before {
-  content: '';
-  position: absolute;
-  top: -10%;
-  left: -10%;
-  width: 120%;
-  height: 120%;
-  background: conic-gradient(from 0deg, #ff8c00, #ff0080, #00ffe7, #ff8c00 100%);
-  filter: blur(24px) brightness(1.2);
-  opacity: 0.25;
-  z-index: -1;
-  animation: conicSpin 6s linear infinite;
+/* It's 20:37: the slab turns to gold in both themes */
+#result[data-state="now"] {
+  color: #1f1708;
+  background: linear-gradient(165deg, #f3d08c 0%, #e3b465 100%);
+  box-shadow:
+    inset 0 1px 0 rgb(255 255 255 / 0.5),
+    inset 0 -2px 0 rgb(0 0 0 / 0.15),
+    0 2px 0 #c79a4f,
+    0 4px 0 #ba8d43,
+    0 6px 0 #ad813a,
+    0 8px 0 #a77a32,
+    0 10px 0 #9a6e2b,
+    0 18px 24px var(--shadow-near),
+    0 50px 80px rgb(227 180 101 / 0.35);
 }
 
-@keyframes conicSpin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
-}
-
-#result:hover, #result:active {
-  background: rgba(255,255,255,0.22);
-  color: #ff0080;
-  transform: scale(1.06) rotate(-1deg);
-  box-shadow: 0 8px 48px 0 rgba(0,255,231,0.25), 0 0 80px 20px #00ffe755;
-  border-color: #00ffe7;
-  cursor: pointer;
-}
+/* --------------------------------------------------------------------------
+   Footer
+   -------------------------------------------------------------------------- */
 
 footer {
-  width: 100%;
+  padding: 1.5rem 0 2rem;
   text-align: center;
-  padding: 1.5rem 0 1rem 0;
-  background: rgba(0,0,0,0.15);
-  font-size: 1rem;
-  letter-spacing: 0.02em;
-  color: #e0e0e0;
-  box-shadow: 0 -2px 12px 0 rgba(0,0,0,0.08);
-  position: relative;
-  overflow: hidden;
+  font-size: 0.875rem;
+  letter-spacing: 0.04em;
+  color: var(--muted);
+  border-top: 1px solid var(--rule);
 }
 
-footer::before {
-  content: '';
-  position: absolute;
-  left: 0; right: 0; top: 0; bottom: 0;
-  background: repeating-linear-gradient(90deg, #ff8c00 0 2px, transparent 2px 20px, #00ffe7 20px 22px, transparent 22px 40px);
-  opacity: 0.08;
-  z-index: 0;
-  pointer-events: none;
-  animation: footerStripe 8s linear infinite;
+footer p + p {
+  margin-top: 0.25rem;
 }
 
-@keyframes footerStripe {
-  0% { background-position: 0 0; }
-  100% { background-position: 80px 0; }
-}
+/* --------------------------------------------------------------------------
+   Small screens and reduced motion
+   -------------------------------------------------------------------------- */
 
-footer p {
-  margin: 0.2rem 0;
-  position: relative;
-  z-index: 1;
-}
-
-
-
-/* Responsive styles */
 @media (max-width: 600px) {
-  h1 {
-    font-size: 1.6rem;
-    animation-duration: 2.2s;
+  :root {
+    --tilt: 8deg;
   }
+
+  header {
+    padding-top: 2.5rem;
+  }
+
   #result {
-    font-size: 1.1rem;
-    padding: 1rem 0.5rem;
-    animation-duration: 1.5s;
+    padding: 1.75rem 1.5rem;
+    border-radius: 1.25rem;
   }
-  main {
-    padding: 0.5rem 0;
-  }
-  footer {
-    font-size: 0.95rem;
-    padding: 1rem 0 0.5rem 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  #result {
+    animation: none;
+    transition: none;
   }
 }
