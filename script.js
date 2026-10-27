@@ -1,6 +1,6 @@
 import { celebrate } from "./confetti.js";
 
-const EIGHT_THIRTY_SEVEN = { hour: 17, minutes: 54 };
+const EIGHT_THIRTY_SEVEN = { hour: 20, minutes: 37 };
 
 const UNITS = { hour: 'hour', minute: 'minute', second: 'second' };
 
