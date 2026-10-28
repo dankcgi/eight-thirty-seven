@@ -4,6 +4,44 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Is it 8:37 PM?</title>
+    <meta 
+        name="description" 
+        content="A live, second-by-second answer to the only question that matters: is it 8:37 PM yet?"
+    >
+    <link rel="canonical" href="https://dankcgi.github.io/eight-thirty-seven/">
+
+    <!-- Lnk previews -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Is it 8:37 PM?">
+    <meta property="og:description" content="Probably not, but it will be.">
+    <meta 
+        property="og:url" 
+        content="https://dankcgi.github.io/eight-thirty-seven/"
+    >
+    <meta property="og:image" content="https://dankcgi.github.io/og.jpeg">
+    <meta property="og:image:width" content="508">
+    <meta property="og:image:height" content="124">
+    <meta 
+        property="og:image:alt" 
+        content="A gold slab reading: You bet your sweet bippy it is. Huzzah!"
+    >
+    <meta name="twitter:card" content="summary_large_image">
+
+    <link rel="icon" href="./alarm-clock.png" type="image">
+    <link rel="manifest" href="manifest.webmanifest">
+
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "WebApplication",
+        "name": "Is it 8:37 PM?",
+        "applicationCategory": "UtilitiesApplication",
+        "operatingSystem": "Any",
+        "offers": { "@type": "Offer", "price": "0" },
+        "author": { "@type": "Person", "name": "Dan Kiernan" }
+    }
+    </script>
+
     <script src="script.js" type="module"></script>
     <link rel="stylesheet" href="style.css">
 </head>
@@ -13,12 +51,47 @@
     </header>
 
     <main>
-        <p id="result" role="timer"></p>
+        <p id="result" role="timer">Checking the clock ...</p>
+        <noscript>
+            <p class="noscript">
+                This page needs JavaScript to read the clock. Statistically, 
+                though, it's probably not 8:37 PM.
+            </p>
+        </noscript>
     </main>
 
     <footer>
         <p>© Dan Kiernan <span id="current-year"></span></p>
-        <p>Inspired by an alarm originally set by Paul Watson</p>
+        <p>
+            Inspired by an alarm originally set by Paul Watson
+        </p>
+        <button type="button" class="link-button" popovertarget="about">
+            Why?
+        </button>
     </footer>
+
+    <div id="about" popover>
+        <h2>Why does this exist?</h2>
+        <p>
+            During the covid years, I lived with a guy called Watson who had an
+            alarm for 8:37 PM, every night. He had set it some time before we 
+            lived together to remind him to do some task, and, after completing
+            said task, had not unset it. It remained active for months, and
+            given how everyone went a bit cuckoo during that time, it going off 
+            at that time each evening became a cherished event in the house. 
+        </p>
+        <p>
+            This site answers the question that alarm raised, every second of 
+            every day, using nothing but HTML, CSS and JavaScript.
+        </p>
+        <button 
+            type="button"
+            class="popover-close"
+            popovertarget="about" 
+            popovertargetaction="hide"
+        >
+            Close
+        </button>
+    </div>
 </body>
 </html>

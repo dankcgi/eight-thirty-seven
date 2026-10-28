@@ -39,6 +39,17 @@
   --emboss-light: light-dark(rgb(255 255 255 / 0.9), rgb(255 255 255 / 0.08));
   --rule: light-dark(rgb(0 0 0 / 0.08), rgb(255 255 255 / 0.06));
 
+  /* Gold, shared by the "now" slab and buttons (same in both themes) */
+  --gold-text: #1f1708;
+  --gold-hi: #f3d08c;
+  --gold-lo: #e3b465;
+  --gold-edge-1: #c79a4f;
+  --gold-edge-2: #ba8d43;
+  --gold-edge-3: #ad813a;
+  --gold-edge-4: #a77a32;
+  --gold-edge-5: #9a6e2b;
+  --gold-glow: color-mix(in srgb, var(--gold-lo) 35%, transparent);
+
   /* Text and accent */
   --text: light-dark(#1d2433, #eceff5);
   --muted: light-dark(#5f6a80, #8b95aa);
@@ -201,6 +212,13 @@ main {
   pointer-events: none;
 }
 
+.noscript {
+  max-width: 34rem;
+  margin-top: 1.5rem;
+  text-align: center;
+  color: var(--muted);
+}
+
 @keyframes float {
   0%,
   100% {
@@ -213,18 +231,18 @@ main {
 
 /* It's 20:37: the slab turns to gold in both themes */
 #result[data-state="now"] {
-  color: #1f1708;
-  background: linear-gradient(165deg, #f3d08c 0%, #e3b465 100%);
+  color: var(--gold-text);
+  background: linear-gradient(165deg, var(--gold-hi) 0%, var(--gold-lo) 100%);
   box-shadow:
     inset 0 1px 0 rgb(255 255 255 / 0.5),
     inset 0 -2px 0 rgb(0 0 0 / 0.15),
-    0 2px 0 #c79a4f,
-    0 4px 0 #ba8d43,
-    0 6px 0 #ad813a,
-    0 8px 0 #a77a32,
-    0 10px 0 #9a6e2b,
+    0 2px 0 var(--gold-edge-1),
+    0 4px 0 var(--gold-edge-2),
+    0 6px 0 var(--gold-edge-3),
+    0 8px 0 var(--gold-edge-4),
+    0 10px 0 var(--gold-edge-5),
     0 18px 24px var(--shadow-near),
-    0 50px 80px rgb(227 180 101 / 0.35);
+    0 50px 80px var(--gold-glow);
 }
 
 /* --------------------------------------------------------------------------
@@ -242,6 +260,103 @@ footer {
 
 footer p + p {
   margin-top: 0.25rem;
+}
+
+/* --------------------------------------------------------------------------
+   Popover
+   -------------------------------------------------------------------------- */
+
+#about {
+  max-width: min(32rem, calc(100% - 2rem));
+  margin: auto;
+  padding: 2rem 2.25rem;
+  border: none;
+  border-radius: 1.5rem;
+  color: var(--text);
+  background: linear-gradient(165deg, var(--surface-hi) 0%, var(--surface-lo) 100%);
+  box-shadow:
+    inset 0 1px 0 var(--highlight),
+    0 18px 24px var(--shadow-near),
+    0 50px 80px var(--shadow-far);
+  text-align: center;
+  line-height: 1.6;
+
+  opacity: 0;
+  translate: 0 1rem;
+  transition:
+    opacity 0.3s,
+    translate 0.3s,
+    overlay 0.3s allow-discrete,
+    display 0.3s allow-discrete;
+}
+
+#about:popover-open {
+  opacity: 1;
+  translate: 0 0;
+}
+
+@starting-style {
+  #about:popover-open {
+    opacity: 0;
+    translate: 0 1rem;
+  }
+}
+
+#about::backdrop {
+  background: rgb(0 0 0 / 0.3);
+  backdrop-filter: blur(4px);
+}
+
+#about h2 {
+  font-family: var(--serif);
+  font-weight: 500;
+  margin-bottom: 1rem;
+}
+
+.link-button {
+  font: inherit;
+  color: var(--accent);
+  background: none;
+  border: none;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.popover-close {
+  margin-top: 1.5rem;
+  padding: 0.6rem 1.75rem;
+  font: inherit;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  color: var(--gold-text);
+  background: linear-gradient(165deg, var(--gold-hi) 0%, var(--gold-lo) 100%);
+  border: none;
+  border-radius: 999px;
+  box-shadow:
+    inset 0 1px 0 rgb(255 255 255 / 0.5),
+    0 2px 0 var(--gold-edge-1),
+    0 4px 0 var(--gold-edge-4),
+    0 8px 14px var(--shadow-near);
+  cursor: pointer;
+  transition: translate 0.1s, box-shadow 0.1s, filter 0.2s;
+}
+
+.popover-close:hover {
+  filter: brightness(1.06);
+}
+
+/* Pressed: sink into the extrusion */
+.popover-close:active {
+  translate: 0 3px;
+  box-shadow:
+    inset 0 1px 0 rgb(255 255 255 / 0.5),
+    0 1px 0 var(--gold-edge-dark),
+    0 3px 6px var(--shadow-near);
+}
+
+.popover-close:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 4px;
 }
 
 /* --------------------------------------------------------------------------
